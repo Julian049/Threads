@@ -1,5 +1,8 @@
 # Proyecto usando hilos 
 
-## Version 0.1
+## Descripcion 
+Este proyecto esta orientado al proceso de aprendizaje del manejo de hilos y reforzar la utilización del patrón de diseño MVP.
 
-Creamos una aplicacion con UI de swing, que funciona con unos botones que permiten mover un circulo en las 4 direcciones posibles.
+## Requisitos
+Java 17
+
