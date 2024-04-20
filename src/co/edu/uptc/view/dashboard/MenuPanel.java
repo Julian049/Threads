@@ -8,12 +8,14 @@ public class MenuPanel extends JPanel {
 
     private JButton btnStart;
     private JButton btnStop;
-
-    private JButton btnUp;
-    private JButton btnDown;
-    private JButton btnLeft;
-    private JButton btnRight;
-
+    private JButton btnCircleUp;
+    private JButton btnCircleDown;
+    private JButton btnCircleLeft;
+    private JButton btnCircleRight;
+    private JButton btnImageUp;
+    private JButton btnImageDown;
+    private JButton btnImageLeft;
+    private JButton btnImageRight;
     private Dashboard dashboard;
 
     public MenuPanel() {
@@ -33,57 +35,125 @@ public class MenuPanel extends JPanel {
     private void createButtons() {
         btnStart = new JButton("Start");
         btnStop = new JButton("Stop");
-        btnUp = new JButton("^");
-        btnDown = new JButton("v");
-        btnLeft = new JButton("<");
-        btnRight = new JButton(">");
+        btnCircleUp = new JButton("^");
+        btnCircleDown = new JButton("v");
+        btnCircleLeft = new JButton("<");
+        btnCircleRight = new JButton(">");
+        btnImageUp = new JButton("^");
+        btnImageDown = new JButton("v");
+        btnImageLeft = new JButton("<");
+        btnImageRight = new JButton(">");
     }
 
     private void addButtons() {
-        createButtonRight();
-        createButtonLeft();
-        createButtonUp();
-        createButtonDown();
+        createButtonRightCircle();
+        createButtonLeftCircle();
+        createButtonUpCircle();
+        createButtonDownCircle();
+        createButtonDownImage();
+        createButtonUpImage();
+        createButtonLeftImage();
+        createButtonRightImage();
+        createButtonStart();
+        createButtonStop();
+        add(btnCircleUp);
+        add(btnCircleDown);
+        add(btnCircleLeft);
+        add(btnCircleRight);
         add(btnStart);
         add(btnStop);
-        add(btnUp);
-        add(btnDown);
-        add(btnLeft);
-        add(btnRight);
+        add(btnImageUp);
+        add(btnImageDown);
+        add(btnImageLeft);
+        add(btnImageRight);
     }
 
-    public void createButtonRight() {
-        btnRight.addActionListener(new ActionListener() {
+    public void createButtonRightCircle() {
+        btnCircleRight.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dashboard.workPanel.right();
+                dashboard.presenter.rightCircle();
             }
         });
     }
 
-    public void createButtonLeft() {
-        btnLeft.addActionListener(new ActionListener() {
+    public void createButtonLeftCircle() {
+        btnCircleLeft.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dashboard.workPanel.left();
+                dashboard.presenter.leftCircle();
             }
         });
     }
 
-    public void createButtonUp(){
-        btnUp.addActionListener(new ActionListener() {
+    public void createButtonUpCircle(){
+        btnCircleUp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dashboard.workPanel.up();
+                dashboard.presenter.upCircle();
             }
         });
     }
 
-    public void createButtonDown(){
-        btnDown.addActionListener(new ActionListener() {
+    public void createButtonDownCircle(){
+        btnCircleDown.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dashboard.workPanel.down();
+                dashboard.presenter.downCircle();
+            }
+        });
+    }
+
+    public void createButtonDownImage(){
+        btnImageDown.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dashboard.presenter.downImage();
+            }
+        });
+    }
+
+    public void createButtonUpImage(){
+        btnImageUp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dashboard.presenter.upImage();
+            }
+        });
+    }
+
+    public void createButtonLeftImage(){
+        btnImageLeft.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dashboard.presenter.leftImage();
+            }
+        });
+    }
+
+    public void createButtonRightImage(){
+        btnImageRight.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dashboard.presenter.rightImage();
+            }
+        });
+    }
+
+    private void createButtonStart() {
+        btnStart.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dashboard.presenter.start();
+            }
+        });
+    }
+
+    private void createButtonStop() {
+        btnStop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dashboard.presenter.stop();
             }
         });
     }
