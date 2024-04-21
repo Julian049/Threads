@@ -27,7 +27,6 @@ public class MenuPanel extends JPanel {
     }
 
     private void initComponents() {
-        setBounds(1, 1, 450, 50);
         createButtons();
         addButtons();
     }

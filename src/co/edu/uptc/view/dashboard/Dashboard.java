@@ -1,6 +1,7 @@
 package co.edu.uptc.view.dashboard;
 
 import co.edu.uptc.presenter.ContractPlay;
+import co.edu.uptc.utils.Config;
 import co.edu.uptc.view.WorkPanel;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class Dashboard extends JFrame implements ContractPlay.View {
     public MenuPanel menuPanel;
     protected WorkPanel workPanel;
     public ContractPlay.Presenter presenter;
+    private Config config = new Config();
 
     public Dashboard() {
         initComponents();
@@ -21,7 +23,7 @@ public class Dashboard extends JFrame implements ContractPlay.View {
     }
 
     private void initComponents() {
-        setBounds(1, 1, 1280, 720);
+        setSize(config.getUIWidth(), config.getUIHeight());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -36,7 +38,7 @@ public class Dashboard extends JFrame implements ContractPlay.View {
 
     @Override
     public void run() {
-        workPanel.moveBall();
+        workPanel.threadPaint();
         setVisible(true);
     }
 

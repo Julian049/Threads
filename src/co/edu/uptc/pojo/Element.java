@@ -7,11 +7,37 @@ public class Element {
     private int circleY;
     private int imageX;
     private int imageY;
+    private int circleSize;
     private int height;
     private int width;
+    private int imageWidth;
+    private int imageHeight;
     private int padding;
     public Image image=null;
 
+    public int getCircleSize() {
+        return circleSize;
+    }
+
+    public void setCircleSize(int circleSize) {
+        this.circleSize = circleSize;
+    }
+
+    public int getImageWidth() {
+        return imageWidth;
+    }
+
+    public void setImageWidth(int imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public int getImageHeight() {
+        return imageHeight;
+    }
+
+    public void setImageHeight(int imageHeight) {
+        this.imageHeight = imageHeight;
+    }
     public int getHeight() {
         return height;
     }

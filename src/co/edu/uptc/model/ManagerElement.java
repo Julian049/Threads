@@ -1,24 +1,32 @@
 package co.edu.uptc.model;
 
 import co.edu.uptc.pojo.Element;
+import co.edu.uptc.utils.Config;
 import co.edu.uptc.view.dashboard.DirectionEnum;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class ManagerElement {
 
-    private int speed = 100;
+    private Config config = new Config();
     private DirectionEnum direction = DirectionEnum.LEFT;
     private Element element;
     private Boolean running = false;
 
     public ManagerElement() {
         this.element = new Element();
-        this.element.setCircleX(10);
-        this.element.setCircleY(10);
+        this.element.setCircleX(config.getCircleX());
+        this.element.setCircleY(config.getCircleY());
         this.element.setPadding(10);
-        this.element.setHeight(30);
-        this.element.setWidth(30);
+        this.element.setHeight(config.getUIHeight());
+        this.element.setWidth(config.getUIWidth());
+        this.element.setCircleSize(config.getCircleSize());
+        this.element.setImageX(config.getImageX());
+        this.element.setImageY(config.getImageY());
+        this.element.setImageWidth(config.getImageWidth());
+        this.element.setImageHeight(config.getImageHeight());
+        this.element.setImage(new ImageIcon(config.getImagePath()).getImage());
     }
 
     public void stopElement() {
@@ -56,7 +64,7 @@ public class ManagerElement {
             public void run() {
                 while (running) {
                     try {
-                        Thread.sleep(speed);
+                        Thread.sleep(config.getCircleSpeed());
                         move();
                     } catch (InterruptedException e) {
 
@@ -66,7 +74,7 @@ public class ManagerElement {
         });
         thread.start();
     }
-    
+
     public void move() {
         if (direction == DirectionEnum.LEFT) {
             leftCircle();
@@ -83,56 +91,56 @@ public class ManagerElement {
     }
 
     public void leftCircle() {
-        element.setCircleX(element.getCircleX() - 10);
+        element.setCircleX(element.getCircleX() - config.getMovingPixels());
         if (element.getCircleX() <= 1) {
             direction = DirectionEnum.RIGHT;
         }
     }
 
     public void rightCircle() {
-        element.setCircleX(element.getCircleX() + 10);
-        if (element.getCircleX() >= 450) {
+        element.setCircleX(element.getCircleX() + config.getMovingPixels());
+        if (element.getCircleX() > element.getWidth() - element.getCircleSize()){
             direction = DirectionEnum.LEFT;
         }
     }
 
     public void downCircle() {
-        element.setCircleY(element.getCircleY() + 10);
-        if (element.getCircleY() >= 450) {
+        element.setCircleY(element.getCircleY() + config.getMovingPixels());
+        if (element.getCircleY() > element.getHeight() - element.getCircleSize()) {
             direction = DirectionEnum.UP;
         }
     }
 
     public void upCircle() {
-        element.setCircleY(element.getCircleY() - 10);
+        element.setCircleY(element.getCircleY() - config.getMovingPixels());
         if (element.getCircleY() <= 1) {
             direction = DirectionEnum.DOWN;
         }
     }
 
     public void leftImage() {
-        element.setImageX(element.getImageX() - 10);
+        element.setImageX(element.getImageX() - config.getMovingPixels());
         if (element.getImageX() <= 1) {
             direction = DirectionEnum.RIGHT;
         }
     }
 
     public void rightImage() {
-        element.setImageX(element.getImageX() + 10);
-        if (element.getImageX() >= 450) {
+        element.setImageX(element.getImageX() + config.getMovingPixels());
+        if (element.getImageX() >= element.getWidth() - 1){
             direction = DirectionEnum.LEFT;
         }
     }
 
     public void downImage() {
-        element.setImageY(element.getImageY() + 10);
-        if (element.getImageY() >= 450) {
+        element.setImageY(element.getImageY() + config.getMovingPixels());
+        if (element.getImageY() >= element.getHeight() - 1){
             direction = DirectionEnum.UP;
         }
     }
 
     public void upImage() {
-        element.setImageY(element.getImageY() - 10);
+        element.setImageY(element.getImageY() - config.getMovingPixels());
         if (element.getImageY() <= 1) {
             direction = DirectionEnum.DOWN;
         }

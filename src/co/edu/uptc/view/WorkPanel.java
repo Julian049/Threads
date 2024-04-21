@@ -1,26 +1,25 @@
 package co.edu.uptc.view;
 
 import co.edu.uptc.pojo.Element;
+import co.edu.uptc.utils.Config;
 import co.edu.uptc.view.dashboard.Dashboard;
-import co.edu.uptc.view.dashboard.DirectionEnum;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class WorkPanel extends JPanel {
 
-    private int speed = 80;
+    private Config config = new Config();
     private Element element = new Element();
     private Dashboard dashboard;
 
     public WorkPanel(Dashboard dashboard) {
         this.dashboard = dashboard;
         initComponents();
-        moveBall();
+        threadPaint();
     }
 
     private void initComponents() {
-        setBounds(100, 100, 450, 300);
         setBackground(Color.BLUE);
     }
 
@@ -29,24 +28,24 @@ public class WorkPanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         g.setColor(Color.GREEN);
-        g.fillOval(element.getCircleX(), element.getCircleY(), 200, 200);
+        g.fillOval(element.getCircleX(), element.getCircleY(), element.getCircleSize(), element.getCircleSize());
 
-        ImageIcon icon = new ImageIcon("resources/image.jpg");
-        icon = new ImageIcon(icon.getImage().getScaledInstance(200, 250, Image.SCALE_SMOOTH));
-        g2d.drawImage(icon.getImage(), element.getImageX(), element.getImageY(), null);
+//        ImageIcon icon = new ImageIcon(element.getImage());
+//        icon = new ImageIcon(icon.getImage().getScaledInstance(element.getImageWidth(), element.getImageHeight(), Image.SCALE_SMOOTH));
+//        g2d.drawImage(icon.getImage(), element.getImageX(), element.getImageY(), null);
 
     }
 
-    public void moveBall() {
+    public void threadPaint() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(speed);
+                        Thread.sleep(config.getUIUpdateSpeed());
                         element = dashboard.presenter.getElement();
                     } catch (InterruptedException e) {
-
+                        e.printStackTrace();
                     }
                     repaint();
                 }
