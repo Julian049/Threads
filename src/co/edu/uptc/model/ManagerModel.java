@@ -23,6 +23,11 @@ public class ManagerModel implements ContractPlay.Model {
         elementModel.stopElement();
     }
 
+    @Override
+    public void addElements(int numberElements) {
+        elementModel.addElements(numberElements);
+    }
+
     public void rightCircle() {
         elementModel.rightCircle();
     }

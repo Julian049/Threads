@@ -71,4 +71,11 @@ public class Config {
     public int getMovingPixels() {
         return Integer.parseInt(properties.getProperty("movingPixels"));
     }
+    public int getMinSpeed() {
+        return Integer.parseInt(properties.getProperty("minSpeed"));
+    }
+
+    public int getMaxSpeed() {
+        return Integer.parseInt(properties.getProperty("maxSpeed"));
+    }
 }

@@ -6,31 +6,92 @@ import co.edu.uptc.view.dashboard.DirectionEnum;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class ManagerElement {
 
     private Config config = new Config();
     private DirectionEnum direction = DirectionEnum.LEFT;
+    private TypeElementEnum type;
+    private TypeMovement typeMovement;
     private Element element;
     private Boolean running = false;
 
     public ManagerElement() {
         this.element = new Element();
-        this.element.setCircleX(config.getCircleX());
-        this.element.setCircleY(config.getCircleY());
-        this.element.setPadding(10);
         this.element.setHeight(config.getUIHeight());
         this.element.setWidth(config.getUIWidth());
         this.element.setCircleSize(config.getCircleSize());
-        this.element.setImageX(config.getImageX());
-        this.element.setImageY(config.getImageY());
         this.element.setImageWidth(config.getImageWidth());
         this.element.setImageHeight(config.getImageHeight());
         this.element.setImage(new ImageIcon(config.getImagePath()).getImage());
+
+        this.element.setImageX(config.getImageX());
+        this.element.setImageY(config.getImageY());
     }
 
     public void stopElement() {
         this.running = false;
+    }
+
+    public int randomDirection(){
+        Random random = new Random();
+        int option = random.nextInt(2);
+        switch (option) {
+            case 0:
+                typeMovement = TypeMovement.HORIZONTAL;
+                break;
+            case 1:
+                typeMovement = TypeMovement.VERTICAL;
+                break;
+        }
+        return option;
+    }
+
+    public int randomType(){
+        Random random = new Random();
+        int option = random.nextInt(4);
+        switch (option) {
+            case 0:
+                type = TypeElementEnum.CIRCLE;
+                break;
+            case 1:
+                type = TypeElementEnum.IMAGE;
+                break;
+            case 2:
+                type = TypeElementEnum.SQUARE;
+                break;
+            case 3:
+                type = TypeElementEnum.TEXT;
+                break;
+        }
+        return option;
+    }
+    public int randomSpeed(){
+        Random random = new Random();
+        int min = config.getMinSpeed();
+        int max = config.getMaxSpeed();
+        return random.nextInt((max - min) + 1) + min;
+    }
+
+
+    public void addElements(int numberElements) {
+//        Random random = new Random();
+//        for (int i = 0; i < numberElements; i++) {
+//            int cordX = random.nextInt(getWidth() - getCircleSize());
+//            System.out.println("X:"+cordX);
+//
+//            int cordY = random.nextInt(getHeight()- getCircleSize());
+//            System.out.println("Y:"+cordY);
+//
+//            this.element.setCircleX(cordX);
+//            this.element.setCircleY(cordY);
+//        }
+        randomDirection();
+        randomType();
+        System.out.println(typeMovement);
+        System.out.println(type);
+        System.out.println(randomSpeed());
     }
 
     public Element getElement() {
@@ -55,6 +116,10 @@ public class ManagerElement {
 
     public int getHeight() {
         return element.getHeight();
+    }
+
+    public int getCircleSize(){
+        return element.getCircleSize();
     }
 
     public void startElement() {

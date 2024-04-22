@@ -52,6 +52,11 @@ public class ManagerPresenter implements ContractPlay.Presenter {
     }
 
     @Override
+    public void addElements(int numberElements) {
+        model.addElements(numberElements);
+    }
+
+    @Override
     public void rightCircle() {
         model.rightCircle();
     }

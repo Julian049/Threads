@@ -30,9 +30,9 @@ public class WorkPanel extends JPanel {
         g.setColor(Color.GREEN);
         g.fillOval(element.getCircleX(), element.getCircleY(), element.getCircleSize(), element.getCircleSize());
 
-//        ImageIcon icon = new ImageIcon(element.getImage());
-//        icon = new ImageIcon(icon.getImage().getScaledInstance(element.getImageWidth(), element.getImageHeight(), Image.SCALE_SMOOTH));
-//        g2d.drawImage(icon.getImage(), element.getImageX(), element.getImageY(), null);
+        ImageIcon icon = new ImageIcon(element.getImage());
+        icon = new ImageIcon(icon.getImage().getScaledInstance(element.getImageWidth(), element.getImageHeight(), Image.SCALE_SMOOTH));
+        g2d.drawImage(icon.getImage(), element.getImageX(), element.getImageY(), null);
 
     }
 

@@ -8,6 +8,10 @@ public class MenuPanel extends JPanel {
 
     private JButton btnStart;
     private JButton btnStop;
+    private Dashboard dashboard;
+    private JLabel numberCircleLabel;
+    private JTextField numberCircleField;
+    private JButton btnAdd;
     private JButton btnCircleUp;
     private JButton btnCircleDown;
     private JButton btnCircleLeft;
@@ -16,7 +20,7 @@ public class MenuPanel extends JPanel {
     private JButton btnImageDown;
     private JButton btnImageLeft;
     private JButton btnImageRight;
-    private Dashboard dashboard;
+
 
     public MenuPanel() {
         initComponents();
@@ -42,6 +46,10 @@ public class MenuPanel extends JPanel {
         btnImageDown = new JButton("v");
         btnImageLeft = new JButton("<");
         btnImageRight = new JButton(">");
+        numberCircleLabel = new JLabel("Number of circles: ");
+        numberCircleField = new JTextField();
+        numberCircleField.setColumns(5);
+        btnAdd = new JButton("Add");
     }
 
     private void addButtons() {
@@ -55,6 +63,7 @@ public class MenuPanel extends JPanel {
         createButtonRightImage();
         createButtonStart();
         createButtonStop();
+        createButtonAdd();
         add(btnCircleUp);
         add(btnCircleDown);
         add(btnCircleLeft);
@@ -65,6 +74,40 @@ public class MenuPanel extends JPanel {
         add(btnImageDown);
         add(btnImageLeft);
         add(btnImageRight);
+        add(numberCircleLabel);
+        add(numberCircleField);
+        add(btnAdd);
+    }
+
+    public JTextField getNumberCircleField() {
+        return numberCircleField;
+    }
+
+    private void createButtonStart() {
+        btnStart.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dashboard.presenter.start();
+            }
+        });
+    }
+
+    private void createButtonStop() {
+        btnStop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dashboard.presenter.stop();
+            }
+        });
+    }
+
+    private void createButtonAdd() {
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dashboard.presenter.addElements(Integer.parseInt(getNumberCircleField().getText()));
+            }
+        });
     }
 
     public void createButtonRightCircle() {
@@ -135,24 +178,6 @@ public class MenuPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dashboard.presenter.rightImage();
-            }
-        });
-    }
-
-    private void createButtonStart() {
-        btnStart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dashboard.presenter.start();
-            }
-        });
-    }
-
-    private void createButtonStop() {
-        btnStop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dashboard.presenter.stop();
             }
         });
     }

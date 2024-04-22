@@ -10,6 +10,7 @@ public interface ContractPlay {
         public void start();
 
         public void stop();
+        public void addElements(int numberElements);
         public void rightCircle();
 
         void leftCircle();
@@ -47,6 +48,8 @@ public interface ContractPlay {
         public void start();
 
         public void stop();
+
+        public void addElements(int numberElements);
 
 
         public void rightCircle();
