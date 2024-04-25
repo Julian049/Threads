@@ -3,6 +3,8 @@ package co.edu.uptc.model;
 import co.edu.uptc.pojo.Element;
 import co.edu.uptc.presenter.ContractPlay;
 
+import java.util.ArrayList;
+
 public class ManagerModel implements ContractPlay.Model {
 
     private ManagerElement elementModel = new ManagerElement();
@@ -24,8 +26,9 @@ public class ManagerModel implements ContractPlay.Model {
     }
 
     @Override
-    public void addElements(int numberElements) {
-        elementModel.addElements(numberElements);
+    public ArrayList<Element> loadElements(int numberElements) {
+        ArrayList<Element> elements = elementModel.loadElements(numberElements);
+        return elements;
     }
 
     public void rightCircle() {
@@ -61,7 +64,7 @@ public class ManagerModel implements ContractPlay.Model {
     }
 
     @Override
-    public Element getElements() {
+    public Element getElement() {
         Element element = elementModel.getElement();
         return element;
     }

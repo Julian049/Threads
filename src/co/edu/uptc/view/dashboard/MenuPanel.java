@@ -6,12 +6,6 @@ import java.awt.event.ActionListener;
 
 public class MenuPanel extends JPanel {
 
-    private JButton btnStart;
-    private JButton btnStop;
-    private Dashboard dashboard;
-    private JLabel numberCircleLabel;
-    private JTextField numberCircleField;
-    private JButton btnAdd;
     private JButton btnCircleUp;
     private JButton btnCircleDown;
     private JButton btnCircleLeft;
@@ -20,7 +14,12 @@ public class MenuPanel extends JPanel {
     private JButton btnImageDown;
     private JButton btnImageLeft;
     private JButton btnImageRight;
-
+    private Dashboard dashboard;
+    private JButton btnStart;
+    private JButton btnStop;
+    private JLabel lblAddText;
+    private JTextField numberElementsToAdd;
+    private JButton btnAdd;
 
     public MenuPanel() {
         initComponents();
@@ -36,8 +35,6 @@ public class MenuPanel extends JPanel {
     }
 
     private void createButtons() {
-        btnStart = new JButton("Start");
-        btnStop = new JButton("Stop");
         btnCircleUp = new JButton("^");
         btnCircleDown = new JButton("v");
         btnCircleLeft = new JButton("<");
@@ -46,10 +43,12 @@ public class MenuPanel extends JPanel {
         btnImageDown = new JButton("v");
         btnImageLeft = new JButton("<");
         btnImageRight = new JButton(">");
-        numberCircleLabel = new JLabel("Number of circles: ");
-        numberCircleField = new JTextField();
-        numberCircleField.setColumns(5);
-        btnAdd = new JButton("Add");
+
+        createButtonStart();
+        createButtonStop();
+        createLabelAddText();
+        createTextFieldNumberElementsToAdd();
+        createButtonAdd();
     }
 
     private void addButtons() {
@@ -61,9 +60,6 @@ public class MenuPanel extends JPanel {
         createButtonUpImage();
         createButtonLeftImage();
         createButtonRightImage();
-        createButtonStart();
-        createButtonStop();
-        createButtonAdd();
         add(btnCircleUp);
         add(btnCircleDown);
         add(btnCircleLeft);
@@ -74,16 +70,12 @@ public class MenuPanel extends JPanel {
         add(btnImageDown);
         add(btnImageLeft);
         add(btnImageRight);
-        add(numberCircleLabel);
-        add(numberCircleField);
-        add(btnAdd);
-    }
-
-    public JTextField getNumberCircleField() {
-        return numberCircleField;
     }
 
     private void createButtonStart() {
+        btnStart = new JButton();
+        btnStart.setText("Start");
+        this.add(btnStart);
         btnStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,6 +85,9 @@ public class MenuPanel extends JPanel {
     }
 
     private void createButtonStop() {
+        btnStop = new JButton();
+        btnStop.setText("Stop");
+        this.add(btnStop);
         btnStop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,12 +97,27 @@ public class MenuPanel extends JPanel {
     }
 
     private void createButtonAdd() {
+        btnAdd = new JButton();
+        btnAdd.setText("Add");
+        this.add(btnAdd);
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dashboard.presenter.addElements(Integer.parseInt(getNumberCircleField().getText()));
+                dashboard.presenter.loadAndPaint();
             }
         });
+    }
+
+    private void createLabelAddText() {
+        lblAddText = new JLabel();
+        lblAddText.setText("Number of elements to add:");
+        this.add(lblAddText);
+    }
+
+    private void createTextFieldNumberElementsToAdd() {
+        numberElementsToAdd = new JTextField();
+        numberElementsToAdd.setColumns(10);
+        this.add(numberElementsToAdd);
     }
 
     public void createButtonRightCircle() {
@@ -180,5 +190,9 @@ public class MenuPanel extends JPanel {
                 dashboard.presenter.rightImage();
             }
         });
+    }
+
+    public JTextField getNumberElementsToAdd() {
+        return numberElementsToAdd;
     }
 }

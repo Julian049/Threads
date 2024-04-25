@@ -4,6 +4,8 @@ import co.edu.uptc.model.ManagerModel;
 import co.edu.uptc.pojo.Element;
 import co.edu.uptc.view.dashboard.Dashboard;
 
+import java.util.ArrayList;
+
 public class ManagerPresenter implements ContractPlay.Presenter {
 
     private ContractPlay.View view;
@@ -38,12 +40,13 @@ public class ManagerPresenter implements ContractPlay.Presenter {
 
     @Override
     public Element getElement() {
-        return model.getElements();
+        return model.getElement();
     }
 
     @Override
     public void start() {
         model.start();
+        view.moveElements();
     }
 
     @Override
@@ -52,8 +55,10 @@ public class ManagerPresenter implements ContractPlay.Presenter {
     }
 
     @Override
-    public void addElements(int numberElements) {
-        model.addElements(numberElements);
+    public void loadAndPaint() {
+        ArrayList<Element> elements = model.loadElements(view.getNumberElements());
+        view.setElements(elements);
+        view.paintElements();
     }
 
     @Override

@@ -2,6 +2,8 @@ package co.edu.uptc.presenter;
 
 import co.edu.uptc.pojo.Element;
 
+import java.util.ArrayList;
+
 public interface ContractPlay {
 
     public interface Model {
@@ -10,7 +12,7 @@ public interface ContractPlay {
         public void start();
 
         public void stop();
-        public void addElements(int numberElements);
+        public ArrayList<Element> loadElements(int numberElements);
         public void rightCircle();
 
         void leftCircle();
@@ -27,13 +29,17 @@ public interface ContractPlay {
 
         void downImage();
 
-        public Element getElements();
+        public Element getElement();
     }
 
     public interface View {
         public void setPresenter(Presenter presenter);
 
         public void run();
+        public void moveElements();
+        public int getNumberElements();
+        public void paintElements();
+        public void setElements(ArrayList<Element> elements);
     }
 
     public interface Presenter {
@@ -49,8 +55,7 @@ public interface ContractPlay {
 
         public void stop();
 
-        public void addElements(int numberElements);
-
+        public void loadAndPaint();
 
         public void rightCircle();
 

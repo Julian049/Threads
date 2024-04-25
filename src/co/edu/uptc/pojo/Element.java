@@ -1,5 +1,8 @@
 package co.edu.uptc.pojo;
 
+import co.edu.uptc.model.TypeElementEnum;
+import co.edu.uptc.model.TypeMovement;
+
 import java.awt.*;
 
 public class Element {
@@ -7,37 +10,37 @@ public class Element {
     private int circleY;
     private int imageX;
     private int imageY;
-    private int circleSize;
     private int height;
     private int width;
-    private int imageWidth;
-    private int imageHeight;
-    private int padding;
     public Image image=null;
+    public TypeElementEnum type;
+    public int speed;
+    public TypeMovement typeMovement;
 
-    public int getCircleSize() {
-        return circleSize;
+    public TypeMovement getTypeMovement() {
+        return typeMovement;
     }
 
-    public void setCircleSize(int circleSize) {
-        this.circleSize = circleSize;
+    public void setTypeMovement(TypeMovement typeMovement) {
+        this.typeMovement = typeMovement;
     }
 
-    public int getImageWidth() {
-        return imageWidth;
+    public int getSpeed() {
+        return speed;
     }
 
-    public void setImageWidth(int imageWidth) {
-        this.imageWidth = imageWidth;
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
-    public int getImageHeight() {
-        return imageHeight;
+    public TypeElementEnum getType() {
+        return type;
     }
 
-    public void setImageHeight(int imageHeight) {
-        this.imageHeight = imageHeight;
+    public void setType(TypeElementEnum type) {
+        this.type = type;
     }
+
     public int getHeight() {
         return height;
     }
@@ -52,14 +55,6 @@ public class Element {
 
     public void setWidth(int width) {
         this.width = width;
-    }
-
-    public int getPadding() {
-        return padding;
-    }
-
-    public void setPadding(int padding) {
-        this.padding = padding;
     }
 
     public Image getImage() {

@@ -1,51 +1,67 @@
 package co.edu.uptc.view;
 
+import co.edu.uptc.model.TypeElementEnum;
 import co.edu.uptc.pojo.Element;
 import co.edu.uptc.utils.Config;
 import co.edu.uptc.view.dashboard.Dashboard;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class WorkPanel extends JPanel {
 
-    private Config config = new Config();
+    private int speed = Config.UI_UPDATE_SPEED;
     private Element element = new Element();
     private Dashboard dashboard;
+    private ArrayList<Element> temp = new ArrayList<>();
 
     public WorkPanel(Dashboard dashboard) {
         this.dashboard = dashboard;
         initComponents();
-        threadPaint();
     }
 
     private void initComponents() {
         setBackground(Color.BLUE);
     }
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
 
-        g.setColor(Color.GREEN);
-        g.fillOval(element.getCircleX(), element.getCircleY(), element.getCircleSize(), element.getCircleSize());
+        g.setColor(Color.BLACK);
+        g.drawLine(0,600,1000,600);
+        g.drawLine(1000,0,1000,600);
 
-        ImageIcon icon = new ImageIcon(element.getImage());
-        icon = new ImageIcon(icon.getImage().getScaledInstance(element.getImageWidth(), element.getImageHeight(), Image.SCALE_SMOOTH));
-        g2d.drawImage(icon.getImage(), element.getImageX(), element.getImageY(), null);
-
+        for (int i = 0; i < temp.size(); i++) {
+            Element element = temp.get(i);
+            if (element.getType().equals(TypeElementEnum.CIRCLE)) {
+                g.setColor(Color.RED);
+                g.fillOval(element.getCircleX(), element.getCircleY(), element.getWidth(), element.getHeight());
+            } else if (element.getType().equals(TypeElementEnum.SQUARE)) {
+                g.setColor(Color.GREEN);
+                g.fillRect(element.getCircleX(), element.getCircleY(), element.getWidth(), element.getHeight());
+            } else if (element.getType().equals(TypeElementEnum.IMAGE)) {
+                ImageIcon icon = new ImageIcon(Config.IMAGE_PATH);
+                icon = new ImageIcon(icon.getImage().getScaledInstance(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT, Image.SCALE_SMOOTH));
+                g.drawImage(icon.getImage(), element.getCircleX(), element.getCircleY(), null);
+            }else if(element.getType().equals(TypeElementEnum.TEXT)){
+                g.setColor(Color.BLACK);
+                g.drawString(Config.TEXT, element.getCircleX(), element.getCircleY());
+            }
+        }
     }
 
-    public void threadPaint() {
+    public void UIUpdate() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(config.getUIUpdateSpeed());
+                        Thread.sleep(speed);
                         element = dashboard.presenter.getElement();
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+
                     }
                     repaint();
                 }
@@ -54,4 +70,7 @@ public class WorkPanel extends JPanel {
         thread.start();
     }
 
+    public void setTemp(ArrayList<Element> temp) {
+        this.temp = temp;
+    }
 }
