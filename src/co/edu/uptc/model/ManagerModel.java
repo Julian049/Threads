@@ -27,46 +27,7 @@ public class ManagerModel implements ContractPlay.Model {
 
     @Override
     public ArrayList<Element> loadElements(int numberElements) {
-        ArrayList<Element> elements = elementModel.loadElements(numberElements);
-        return elements;
-    }
-
-    public void rightCircle() {
-        elementModel.rightCircle();
-    }
-
-    public void leftCircle() {
-        elementModel.leftCircle();
-    }
-
-    public void upCircle() {
-        elementModel.upCircle();
-    }
-
-    public void downCircle() {
-        elementModel.downCircle();
-    }
-
-    public void rightImage() {
-        elementModel.rightImage();
-    }
-
-    public void leftImage() {
-        elementModel.leftImage();
-    }
-
-    public void upImage() {
-        elementModel.upImage();
-    }
-
-    public void downImage() {
-        elementModel.downImage();
-    }
-
-    @Override
-    public Element getElement() {
-        Element element = elementModel.getElement();
-        return element;
+        return elementModel.loadElements(numberElements);
     }
 
     public ManagerModel() {

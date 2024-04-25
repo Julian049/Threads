@@ -6,71 +6,41 @@ import java.util.ArrayList;
 
 public interface ContractPlay {
 
-    public interface Model {
-        public void setPresenter(Presenter presenter);
+    interface Model {
+        void setPresenter(Presenter presenter);
 
-        public void start();
+        void start();
 
-        public void stop();
-        public ArrayList<Element> loadElements(int numberElements);
-        public void rightCircle();
+        void stop();
 
-        void leftCircle();
-
-        void upCircle();
-
-        void downCircle();
-
-        public void rightImage();
-
-        void leftImage();
-
-        void upImage();
-
-        void downImage();
-
-        public Element getElement();
+        ArrayList<Element> loadElements(int numberElements);
     }
 
-    public interface View {
-        public void setPresenter(Presenter presenter);
+    interface View {
+        void setPresenter(Presenter presenter);
 
-        public void run();
-        public void moveElements();
-        public int getNumberElements();
-        public void paintElements();
-        public void setElements(ArrayList<Element> elements);
+        void run();
+
+        void moveElements();
+
+        int getNumberElements();
+
+        void paintElements();
+
+        void setElements(ArrayList<Element> elements);
     }
 
-    public interface Presenter {
-        public void setView(View view);
+    interface Presenter {
+        void setView(View view);
 
-        public void setModel(Model model);
+        void setModel(Model model);
 
-        public void run();
+        void run();
 
-        public Element getElement();
+        void start();
 
-        public void start();
+        void stop();
 
-        public void stop();
-
-        public void loadAndPaint();
-
-        public void rightCircle();
-
-        void leftCircle();
-
-        void upCircle();
-
-        void downCircle();
-
-        public void rightImage();
-
-        void leftImage();
-
-        void upImage();
-
-        void downImage();
+        void loadAndPaint();
     }
 }

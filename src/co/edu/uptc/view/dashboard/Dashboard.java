@@ -19,7 +19,7 @@ public class Dashboard extends JFrame implements ContractPlay.View {
         initComponents();
     }
 
-    private Dashboard getInstance(){
+    private Dashboard getInstance() {
         return this;
     }
 
@@ -60,6 +60,7 @@ public class Dashboard extends JFrame implements ContractPlay.View {
     public void setPresenter(ContractPlay.Presenter presenter) {
         this.presenter = presenter;
     }
+
     @Override
     public void paintElements() {
         workPanel.repaint();
@@ -67,6 +68,6 @@ public class Dashboard extends JFrame implements ContractPlay.View {
 
     @Override
     public void setElements(ArrayList<Element> elements) {
-        workPanel.setTemp(elements);
+        workPanel.setElements(elements);
     }
 }

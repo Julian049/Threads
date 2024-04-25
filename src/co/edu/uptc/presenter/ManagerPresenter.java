@@ -39,11 +39,6 @@ public class ManagerPresenter implements ContractPlay.Presenter {
     }
 
     @Override
-    public Element getElement() {
-        return model.getElement();
-    }
-
-    @Override
     public void start() {
         model.start();
         view.moveElements();
@@ -60,46 +55,5 @@ public class ManagerPresenter implements ContractPlay.Presenter {
         view.setElements(elements);
         view.paintElements();
     }
-
-    @Override
-    public void rightCircle() {
-        model.rightCircle();
-    }
-
-    @Override
-    public void leftCircle() {
-        model.leftCircle();
-    }
-
-    @Override
-    public void upCircle() {
-        model.upCircle();
-    }
-
-    @Override
-    public void downCircle() {
-        model.downCircle();
-    }
-
-    @Override
-    public void rightImage() {
-        model.rightImage();
-    }
-
-    @Override
-    public void leftImage() {
-        model.leftImage();
-    }
-
-    @Override
-    public void upImage() {
-        model.upImage();
-    }
-
-    @Override
-    public void downImage() {
-        model.downImage();
-    }
-
 
 }

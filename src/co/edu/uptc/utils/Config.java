@@ -16,7 +16,7 @@ public class Config {
         }
     }
 
-    public static int UI_UPDATE_SPEED =Integer.parseInt(properties.getProperty("UIUpdateSpeed"));
+    public static int UI_UPDATE_SPEED = Integer.parseInt(properties.getProperty("UIUpdateSpeed"));
     public static int CIRCLE_SIZE = Integer.parseInt(properties.getProperty("circleSize"));
     public static int IMAGE_HEIGHT = Integer.parseInt(properties.getProperty("imageHeight"));
     public static int IMAGE_WIDTH = Integer.parseInt(properties.getProperty("imageWidth"));
@@ -27,5 +27,7 @@ public class Config {
     public static String TEXT = properties.getProperty("text");
     public static int WIDTH = Integer.parseInt(properties.getProperty("UIWidth"));
     public static int HEIGHT = Integer.parseInt(properties.getProperty("UIHeight"));
+    public static int SQUARE_SIZE = Integer.parseInt(properties.getProperty("squareSize"));
+    public static int TEXT_SIZE = Integer.parseInt(properties.getProperty("textSize"));
 
 }

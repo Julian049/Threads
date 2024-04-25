@@ -4,6 +4,7 @@ import co.edu.uptc.pojo.Element;
 import co.edu.uptc.utils.Config;
 import co.edu.uptc.view.dashboard.DirectionEnum;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,7 +13,6 @@ public class ManagerElement {
 
     private int speed = 100;
     private DirectionEnum direction = DirectionEnum.LEFT;
-    private Element element;
     private Boolean running = false;
 
     private ArrayList<Element> elementsList = new ArrayList<>();
@@ -55,8 +55,8 @@ public class ManagerElement {
 
     public int randomSpeed() {
         Random random = new Random();
-        int min = 80;
-        int max = 1000;
+        int min = Config.MIN_SPEED;
+        int max = Config.MAX_SPEED;
         return random.nextInt((max - min) + 1) + min;
     }
 
@@ -66,10 +66,10 @@ public class ManagerElement {
         for (int i = 0; i < numberElements; i++) {
             newElement = new Element();
             newElement.setType(randomType());
-            newElement.setHeight(this.setHeight(newElement.getType()));
-            newElement.setWidth(this.setWidth(newElement.getType()));
-            newElement.setCircleX(randomX(newElement.getType()));
-            newElement.setCircleY(randomY(newElement.getType()));
+            this.setSize(newElement);
+            this.setImage(newElement, newElement.getImageWidth(), newElement.getImageHeight());
+            newElement.setXCoordinate(randomX(newElement.getType()));
+            newElement.setYCoordinate(randomY(newElement.getType()));
             newElement.setSpeed(randomSpeed());
             newElement.setTypeMovement(randomDirection());
             elements.add(newElement);
@@ -77,38 +77,30 @@ public class ManagerElement {
         return elements;
     }
 
-    private int setHeight(TypeElementEnum type) {
-        int height = 0;
-        switch (type) {
+    private void setSize(Element element) {
+        switch (element.getType()) {
             case CIRCLE:
+                element.setCircleSize(Config.CIRCLE_SIZE);
+                break;
             case SQUARE:
-                height = Config.CIRCLE_SIZE;
+                element.setSquareSize(Config.SQUARE_SIZE);
                 break;
             case IMAGE:
-                height = Config.IMAGE_HEIGHT;
+                element.setImageHeight(Config.IMAGE_HEIGHT);
+                element.setImageWidth(Config.IMAGE_WIDTH);
                 break;
             case TEXT:
-                height = 80;
+                element.setTextSize(Config.TEXT_SIZE);
                 break;
         }
-        return height;
     }
 
-    private int setWidth(TypeElementEnum type) {
-        int width = 0;
-        switch (type) {
-            case CIRCLE:
-            case SQUARE:
-                width = Config.CIRCLE_SIZE;
-                break;
-            case IMAGE:
-                width = Config.IMAGE_WIDTH;
-                break;
-            case TEXT:
-                width = 80;
-                break;
+    private void setImage(Element element, int width, int height) {
+        if (element.getType().equals(TypeElementEnum.IMAGE)) {
+            ImageIcon image = new ImageIcon(Config.IMAGE_PATH);
+            image = new ImageIcon(image.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
+            element.setImage(image);
         }
-        return width;
     }
 
     private int randomX(TypeElementEnum type) {
@@ -123,7 +115,7 @@ public class ManagerElement {
                 X = random.nextInt(1000 - Config.IMAGE_WIDTH);
                 break;
             case TEXT:
-                X = random.nextInt(1000 - 80);
+                X = random.nextInt(1000 - 40);
                 break;
         }
         return X;
@@ -141,7 +133,7 @@ public class ManagerElement {
                 Y = random.nextInt(600 - Config.IMAGE_HEIGHT);
                 break;
             case TEXT:
-                Y = random.nextInt(600 - 80);
+                Y = random.nextInt(600 - 40);
                 break;
         }
         return Y;
@@ -152,40 +144,12 @@ public class ManagerElement {
         return elementsList;
     }
 
-    public ArrayList<Element> getElementsList() {
-        return elementsList;
-    }
-
     public void setElementsList(ArrayList<Element> elementsList) {
         this.elementsList = elementsList;
     }
 
     public void stopElement() {
         this.running = false;
-    }
-
-    public Element getElement() {
-        return element;
-    }
-
-    public void setImage(Image image) {
-        element.setImage(image);
-    }
-
-    public int getCircleX() {
-        return element.getCircleX();
-    }
-
-    public int getCircleY() {
-        return element.getCircleY();
-    }
-
-    public int getWidth() {
-        return element.getWidth();
-    }
-
-    public int getHeight() {
-        return element.getHeight();
     }
 
     public void startElement() {
@@ -208,72 +172,17 @@ public class ManagerElement {
 
     public void move() {
         if (direction == DirectionEnum.LEFT) {
-            leftCircle();
+            //leftCircle();
         }
         if (direction == DirectionEnum.RIGHT) {
-            rightCircle();
+            //rightCircle();
         }
         if (direction == DirectionEnum.UP) {
-            upCircle();
+            //upCircle();
         }
         if (direction == DirectionEnum.DOWN) {
-            downCircle();
+            //downCircle();
         }
     }
 
-    public void leftCircle() {
-        element.setCircleX(element.getCircleX() - Config.MOVING_PIXELS);
-        if (element.getCircleX() <= 1) {
-            direction = DirectionEnum.RIGHT;
-        }
-    }
-
-    public void rightCircle() {
-        element.setCircleX(element.getCircleX() + Config.MOVING_PIXELS);
-        if (element.getCircleX() >= Config.WIDTH) {
-            direction = DirectionEnum.LEFT;
-        }
-    }
-
-    public void downCircle() {
-        element.setCircleY(element.getCircleY() + Config.MOVING_PIXELS);
-        if (element.getCircleY() >= Config.HEIGHT) {
-            direction = DirectionEnum.UP;
-        }
-    }
-
-    public void upCircle() {
-        element.setCircleY(element.getCircleY() - Config.MOVING_PIXELS);
-        if (element.getCircleY() <= 1) {
-            direction = DirectionEnum.DOWN;
-        }
-    }
-
-    public void leftImage() {
-        element.setImageX(element.getImageX() - Config.MOVING_PIXELS);
-        if (element.getImageX() <= 1) {
-            direction = DirectionEnum.RIGHT;
-        }
-    }
-
-    public void rightImage() {
-        element.setImageX(element.getImageX() + Config.MOVING_PIXELS);
-        if (element.getImageX() >= Config.WIDTH) {
-            direction = DirectionEnum.LEFT;
-        }
-    }
-
-    public void downImage() {
-        element.setImageY(element.getImageY() + Config.MOVING_PIXELS);
-        if (element.getImageY() >= Config.HEIGHT) {
-            direction = DirectionEnum.UP;
-        }
-    }
-
-    public void upImage() {
-        element.setImageY(element.getImageY() - Config.MOVING_PIXELS);
-        if (element.getImageY() <= 1) {
-            direction = DirectionEnum.DOWN;
-        }
-    }
 }
