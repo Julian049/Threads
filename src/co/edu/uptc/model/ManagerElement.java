@@ -11,10 +11,9 @@ import java.util.Random;
 
 public class ManagerElement {
 
-    private int speed = 100;
-    private DirectionEnum direction = DirectionEnum.LEFT;
     private Boolean running = false;
-
+    private int panelWidth;
+    private int panelHeight;
     private ArrayList<Element> elementsList = new ArrayList<>();
 
     public TypeMovement randomDirection() {
@@ -72,6 +71,8 @@ public class ManagerElement {
             newElement.setYCoordinate(randomY(newElement.getType()));
             newElement.setSpeed(randomSpeed());
             newElement.setTypeMovement(randomDirection());
+            this.setDirection(newElement);
+            this.initText(newElement);
             elements.add(newElement);
         }
         return elements;
@@ -90,7 +91,7 @@ public class ManagerElement {
                 element.setImageWidth(Config.IMAGE_WIDTH);
                 break;
             case TEXT:
-                element.setTextSize(Config.TEXT_SIZE);
+                element.setTextFontSize(Config.TEXT_SIZE);
                 break;
         }
     }
@@ -109,13 +110,13 @@ public class ManagerElement {
         switch (type) {
             case CIRCLE:
             case SQUARE:
-                X = random.nextInt(1000 - Config.CIRCLE_SIZE);
+                X = random.nextInt(getPanelWidth() - Config.CIRCLE_SIZE);
                 break;
             case IMAGE:
-                X = random.nextInt(1000 - Config.IMAGE_WIDTH);
+                X = random.nextInt(getPanelWidth() - Config.IMAGE_WIDTH);
                 break;
             case TEXT:
-                X = random.nextInt(1000 - 40);
+                X = random.nextInt(getPanelWidth() - Config.TEXT_SIZE);
                 break;
         }
         return X;
@@ -127,16 +128,49 @@ public class ManagerElement {
         switch (type) {
             case CIRCLE:
             case SQUARE:
-                Y = random.nextInt(600 - Config.CIRCLE_SIZE);
+                Y = random.nextInt(getPanelHeight() - Config.CIRCLE_SIZE);
                 break;
             case IMAGE:
-                Y = random.nextInt(600 - Config.IMAGE_HEIGHT);
+                Y = random.nextInt(getPanelHeight() - Config.IMAGE_HEIGHT);
                 break;
             case TEXT:
-                Y = random.nextInt(600 - 40);
+                Y = random.nextInt(getPanelHeight() - Config.TEXT_SIZE);
                 break;
         }
         return Y;
+    }
+
+    private void initText(Element element) {
+        if (element.getType().equals(TypeElementEnum.TEXT)) {
+            element.setTextFontSize(Config.TEXT_SIZE);
+            Font font = new Font("Arial", Font.BOLD, element.getTextFontSize());
+            element.setFont(font);
+            element.setText(Config.TEXT);
+        }
+    }
+
+    private void setDirection(Element element) {
+        if (element.getTypeMovement().equals(TypeMovement.HORIZONTAL)) {
+            int option = new Random().nextInt(2);
+            switch (option) {
+                case 0:
+                    element.setDirection(DirectionEnum.LEFT);
+                    break;
+                case 1:
+                    element.setDirection(DirectionEnum.RIGHT);
+                    break;
+            }
+        } else {
+            int option = new Random().nextInt(2);
+            switch (option) {
+                case 0:
+                    element.setDirection(DirectionEnum.UP);
+                    break;
+                case 1:
+                    element.setDirection(DirectionEnum.DOWN);
+                    break;
+            }
+        }
     }
 
     public ArrayList<Element> loadElements(int numberElements) {
@@ -154,35 +188,131 @@ public class ManagerElement {
 
     public void startElement() {
         this.running = true;
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (running) {
-                    try {
-                        Thread.sleep(speed);
-                        move();
-                    } catch (InterruptedException e) {
 
+        for (Element element : getElementsList()) {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (running) {
+                        try {
+                            Thread.sleep(element.getSpeed());
+                            move(element);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
-        });
-        thread.start();
+            });
+            thread.start();
+        }
+    }
+    
+    public void move(Element element) {
+        if (element.getDirection() == DirectionEnum.LEFT) {
+            left(element);
+        }
+        if (element.getDirection() == DirectionEnum.RIGHT) {
+            right(element);
+        }
+        if (element.getDirection() == DirectionEnum.UP) {
+            up(element);
+        }
+        if (element.getDirection() == DirectionEnum.DOWN) {
+            down(element);
+        }
     }
 
-    public void move() {
-        if (direction == DirectionEnum.LEFT) {
-            //leftCircle();
+    public void left(Element element) {
+        element.setXCoordinate(element.getXCoordinate() - Config.MOVING_PIXELS);
+        if (element.getXCoordinate() < 0) {
+            element.setDirection(DirectionEnum.RIGHT);
         }
-        if (direction == DirectionEnum.RIGHT) {
-            //rightCircle();
+    }
+
+    public void right(Element element) {
+        element.setXCoordinate(element.getXCoordinate() + Config.MOVING_PIXELS);
+        switch (element.getType()) {
+            case CIRCLE:
+                if (element.getXCoordinate() >= (getPanelWidth() - element.getCircleSize())) {
+                    element.setDirection(DirectionEnum.LEFT);
+                }
+                break;
+            case SQUARE:
+                if (element.getXCoordinate() >= (getPanelWidth() - element.getSquareSize())) {
+                    element.setDirection(DirectionEnum.LEFT);
+                }
+                break;
+            case IMAGE:
+                if (element.getXCoordinate() >= (getPanelWidth() - (element.getImageWidth()))) {
+                    element.setDirection(DirectionEnum.LEFT);
+                }
+                break;
+            case TEXT:
+                if (element.getXCoordinate() >= (getPanelWidth() - element.getTextWidth())) {
+                    element.setDirection(DirectionEnum.LEFT);
+                }
+                break;
         }
-        if (direction == DirectionEnum.UP) {
-            //upCircle();
+
+    }
+
+    public void down(Element element) {
+        element.setYCoordinate(element.getYCoordinate() + Config.MOVING_PIXELS);
+        switch (element.getType()) {
+            case CIRCLE:
+                if (element.getYCoordinate() >= (getPanelHeight() - element.getCircleSize())) {
+                    element.setDirection(DirectionEnum.UP);
+                }
+                break;
+            case SQUARE:
+                if (element.getYCoordinate() >= (getPanelHeight() - element.getSquareSize())) {
+                    element.setDirection(DirectionEnum.UP);
+                }
+                break;
+            case IMAGE:
+                if (element.getYCoordinate() >= (getPanelHeight() - element.getImageHeight())) {
+                    element.setDirection(DirectionEnum.UP);
+                }
+                break;
+            case TEXT:
+                if (element.getYCoordinate() >= (getPanelHeight())) {
+                    element.setDirection(DirectionEnum.UP);
+                }
+                break;
         }
-        if (direction == DirectionEnum.DOWN) {
-            //downCircle();
+    }
+
+    public void up(Element element) {
+        element.setYCoordinate(element.getYCoordinate() - Config.MOVING_PIXELS);
+        if (!element.getType().equals(TypeElementEnum.TEXT)) {
+            if (element.getYCoordinate() < 0) {
+                element.setDirection(DirectionEnum.DOWN);
+            }
+        } else {
+            if (element.getYCoordinate() <= element.getTextHeight()) {
+                element.setDirection(DirectionEnum.DOWN);
+            }
         }
+    }
+
+    public ArrayList<Element> getElementsList() {
+        return elementsList;
+    }
+
+    public int getPanelWidth() {
+        return panelWidth;
+    }
+
+    public void setPanelWidth(int panelWidth) {
+        this.panelWidth = panelWidth;
+    }
+
+    public int getPanelHeight() {
+        return panelHeight;
+    }
+
+    public void setPanelHeight(int panelHeight) {
+        this.panelHeight = panelHeight;
     }
 
 }

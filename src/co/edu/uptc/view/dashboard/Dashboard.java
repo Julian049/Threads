@@ -70,4 +70,14 @@ public class Dashboard extends JFrame implements ContractPlay.View {
     public void setElements(ArrayList<Element> elements) {
         workPanel.setElements(elements);
     }
+
+    @Override
+    public int getWorkPanelWidth() {
+        return workPanel.getWidth();
+    }
+
+    @Override
+    public int getWorkPanelHeight() {
+        return workPanel.getHeight();
+    }
 }

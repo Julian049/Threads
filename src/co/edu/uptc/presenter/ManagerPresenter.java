@@ -51,9 +51,21 @@ public class ManagerPresenter implements ContractPlay.Presenter {
 
     @Override
     public void loadAndPaint() {
+        model.setPanelHeight(view.getWorkPanelHeight());
+        model.setPanelWidth(view.getWorkPanelWidth());
         ArrayList<Element> elements = model.loadElements(view.getNumberElements());
         view.setElements(elements);
         view.paintElements();
+    }
+
+    @Override
+    public int getPanelWidth() {
+        return view.getWorkPanelWidth();
+    }
+
+    @Override
+    public int getPanelHeight() {
+        return view.getWorkPanelHeight();
     }
 
 }

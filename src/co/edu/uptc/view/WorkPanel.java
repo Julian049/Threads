@@ -30,6 +30,7 @@ public class WorkPanel extends JPanel {
         g.setColor(Color.BLACK);
         g.drawLine(0, 600, 1000, 600);
         g.drawLine(1000, 0, 1000, 600);
+        g.drawLine(965, 0, 965, 600);
 
         for (Element element : elements) {
             switch (element.getType()) {
@@ -46,8 +47,12 @@ public class WorkPanel extends JPanel {
                     break;
                 case TEXT:
                     g.setColor(Color.BLACK);
-                    g.setFont(new Font("Arial", Font.BOLD, element.getTextSize()));
-                    g.drawString(Config.TEXT, element.getXCoordinate(), element.getYCoordinate());
+                    Font font = element.getFont();
+                    g.setFont(font);
+                    g.drawString(element.getText(), element.getXCoordinate(), element.getYCoordinate());
+                    FontMetrics metrics = g.getFontMetrics(font);
+                    element.setTextWidth(metrics.stringWidth(Config.TEXT));
+                    element.setTextHeight(metrics.getHeight());
                     break;
             }
         }

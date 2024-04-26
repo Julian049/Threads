@@ -14,6 +14,8 @@ public interface ContractPlay {
         void stop();
 
         ArrayList<Element> loadElements(int numberElements);
+        void setPanelWidth(int panelWidth);
+        void setPanelHeight(int panelHeight);
     }
 
     interface View {
@@ -28,6 +30,8 @@ public interface ContractPlay {
         void paintElements();
 
         void setElements(ArrayList<Element> elements);
+        int getWorkPanelWidth();
+        int getWorkPanelHeight();
     }
 
     interface Presenter {
@@ -42,5 +46,7 @@ public interface ContractPlay {
         void stop();
 
         void loadAndPaint();
+        int getPanelWidth();
+        int getPanelHeight();
     }
 }

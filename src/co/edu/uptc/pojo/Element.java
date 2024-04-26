@@ -2,8 +2,10 @@ package co.edu.uptc.pojo;
 
 import co.edu.uptc.model.TypeElementEnum;
 import co.edu.uptc.model.TypeMovement;
+import co.edu.uptc.view.dashboard.DirectionEnum;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Element {
     private int XCoordinate;
@@ -14,12 +16,24 @@ public class Element {
     private int imageWidth;
     private int circleSize;
     private int squareSize;
-    private int textSize;
-    public ImageIcon image = null;
+    private int textFontSize;
+    private int textWidth;
+    private int textHeight;
+    private ImageIcon image = null;
     public TypeElementEnum type;
-    public int speed;
-    public TypeMovement typeMovement;
+    private int speed;
+    private TypeMovement typeMovement;
+    private DirectionEnum direction;
+    private String text;
+    private Font font;
 
+    public DirectionEnum getDirection() {
+        return direction;
+    }
+
+    public void setDirection(DirectionEnum direction) {
+        this.direction = direction;
+    }
 
     public TypeMovement getTypeMovement() {
         return typeMovement;
@@ -69,12 +83,12 @@ public class Element {
         this.circleSize = circleSize;
     }
 
-    public int getTextSize() {
-        return textSize;
+    public int getTextFontSize() {
+        return textFontSize;
     }
 
-    public void setTextSize(int textSize) {
-        this.textSize = textSize;
+    public void setTextFontSize(int textFontSize) {
+        this.textFontSize = textFontSize;
     }
 
     public ImageIcon getImage() {
@@ -123,5 +137,36 @@ public class Element {
 
     public void setSquareSize(int squareSize) {
         this.squareSize = squareSize;
+    }
+    public int getTextWidth() {
+        return textWidth;
+    }
+
+    public void setTextWidth(int textWidth) {
+        this.textWidth = textWidth;
+    }
+
+    public int getTextHeight() {
+        return textHeight;
+    }
+
+    public void setTextHeight(int textHeight) {
+        this.textHeight = textHeight;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Font getFont() {
+        return font;
+    }
+
+    public void setFont(Font font) {
+        this.font = font;
     }
 }

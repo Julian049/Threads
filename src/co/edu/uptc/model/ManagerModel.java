@@ -17,6 +17,8 @@ public class ManagerModel implements ContractPlay.Model {
 
     @Override
     public void start() {
+        elementModel.setPanelHeight(presenter.getPanelHeight());
+        elementModel.setPanelWidth(presenter.getPanelWidth());
         elementModel.startElement();
     }
 
@@ -28,6 +30,16 @@ public class ManagerModel implements ContractPlay.Model {
     @Override
     public ArrayList<Element> loadElements(int numberElements) {
         return elementModel.loadElements(numberElements);
+    }
+
+    @Override
+    public void setPanelWidth(int panelWidth) {
+        elementModel.setPanelWidth(panelWidth);
+    }
+
+    @Override
+    public void setPanelHeight(int panelHeight) {
+        elementModel.setPanelHeight(panelHeight);
     }
 
     public ManagerModel() {
