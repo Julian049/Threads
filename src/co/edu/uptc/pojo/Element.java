@@ -10,8 +10,6 @@ import java.awt.*;
 public class Element {
     private int XCoordinate;
     private int YCoordinate;
-    private int imageX;
-    private int imageY;
     private int imageHeight;
     private int imageWidth;
     private int circleSize;
@@ -113,22 +111,6 @@ public class Element {
 
     public void setYCoordinate(int YCoordinate) {
         this.YCoordinate = YCoordinate;
-    }
-
-    public int getImageX() {
-        return imageX;
-    }
-
-    public void setImageX(int imageX) {
-        this.imageX = imageX;
-    }
-
-    public int getImageY() {
-        return imageY;
-    }
-
-    public void setImageY(int imageY) {
-        this.imageY = imageY;
     }
 
     public int getSquareSize() {

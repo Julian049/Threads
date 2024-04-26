@@ -26,12 +26,6 @@ public class WorkPanel extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-
-        g.setColor(Color.BLACK);
-        g.drawLine(0, 600, 1000, 600);
-        g.drawLine(1000, 0, 1000, 600);
-        g.drawLine(965, 0, 965, 600);
-
         for (Element element : elements) {
             switch (element.getType()) {
                 case CIRCLE:

@@ -42,11 +42,17 @@ public class ManagerPresenter implements ContractPlay.Presenter {
     public void start() {
         model.start();
         view.moveElements();
+        view.manageAddButtonState(false);
+        view.manageStartButtonState(false);
+        view.manageStopButtonState(true);
     }
 
     @Override
     public void stop() {
         model.stop();
+        view.manageAddButtonState(true);
+        view.manageStartButtonState(true);
+        view.manageStopButtonState(false);
     }
 
     @Override
@@ -56,6 +62,8 @@ public class ManagerPresenter implements ContractPlay.Presenter {
         ArrayList<Element> elements = model.loadElements(view.getNumberElements());
         view.setElements(elements);
         view.paintElements();
+        view.manageStartButtonState(true);
+        view.manageStopButtonState(true);
     }
 
     @Override

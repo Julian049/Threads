@@ -98,10 +98,31 @@ public class ManagerElement {
 
     private void setImage(Element element, int width, int height) {
         if (element.getType().equals(TypeElementEnum.IMAGE)) {
-            ImageIcon image = new ImageIcon(Config.IMAGE_PATH);
+            ImageIcon image =randomImage();
             image = new ImageIcon(image.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
             element.setImage(image);
         }
+    }
+
+    private ImageIcon randomImage(){
+        Random random = new Random();
+        int option = random.nextInt(4);
+        ImageIcon image = null;
+        switch (option) {
+            case 0:
+                image = new ImageIcon(Config.IMAGE_PATH);
+                break;
+            case 1:
+                image = new ImageIcon(Config.IMAGE_PATH_2);
+                break;
+            case 2:
+                image = new ImageIcon(Config.IMAGE_PATH_3);
+                break;
+            case 3:
+                image = new ImageIcon(Config.IMAGE_PATH_4);
+                break;
+        }
+        return image;
     }
 
     private int randomX(TypeElementEnum type) {

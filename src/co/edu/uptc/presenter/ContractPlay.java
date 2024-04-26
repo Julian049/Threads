@@ -32,6 +32,9 @@ public interface ContractPlay {
         void setElements(ArrayList<Element> elements);
         int getWorkPanelWidth();
         int getWorkPanelHeight();
+        void manageAddButtonState(boolean state);
+        void manageStopButtonState(boolean state);
+        void manageStartButtonState(boolean state);
     }
 
     interface Presenter {

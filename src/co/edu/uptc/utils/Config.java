@@ -21,6 +21,9 @@ public class Config {
     public static int IMAGE_HEIGHT = Integer.parseInt(properties.getProperty("imageHeight"));
     public static int IMAGE_WIDTH = Integer.parseInt(properties.getProperty("imageWidth"));
     public static String IMAGE_PATH = properties.getProperty("imagePath");
+    public static String IMAGE_PATH_2 = properties.getProperty("imagePath2");
+    public static String IMAGE_PATH_3 = properties.getProperty("imagePath3");
+    public static String IMAGE_PATH_4 = properties.getProperty("imagePath4");
     public static int MOVING_PIXELS = Integer.parseInt(properties.getProperty("movingPixels"));
     public static int MAX_SPEED = Integer.parseInt(properties.getProperty("maxSpeed"));
     public static int MIN_SPEED = Integer.parseInt(properties.getProperty("minSpeed"));

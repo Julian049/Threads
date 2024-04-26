@@ -36,25 +36,27 @@ public class MenuPanel extends JPanel {
     private void createButtonStart() {
         btnStart = new JButton();
         btnStart.setText("Start");
-        this.add(btnStart);
         btnStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dashboard.presenter.start();
             }
         });
+        btnStart.setEnabled(false);
+        this.add(btnStart);
     }
 
     private void createButtonStop() {
         btnStop = new JButton();
         btnStop.setText("Stop");
-        this.add(btnStop);
         btnStop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dashboard.presenter.stop();
             }
         });
+        btnStop.setEnabled(false);
+        this.add(btnStop);
     }
 
     private void createButtonAdd() {
@@ -83,5 +85,17 @@ public class MenuPanel extends JPanel {
 
     public JTextField getNumberElementsToAdd() {
         return numberElementsToAdd;
+    }
+
+    public JButton getBtnStart() {
+        return btnStart;
+    }
+
+    public JButton getBtnStop() {
+        return btnStop;
+    }
+
+    public JButton getBtnAdd() {
+        return btnAdd;
     }
 }

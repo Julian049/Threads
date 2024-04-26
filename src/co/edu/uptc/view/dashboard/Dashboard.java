@@ -80,4 +80,19 @@ public class Dashboard extends JFrame implements ContractPlay.View {
     public int getWorkPanelHeight() {
         return workPanel.getHeight();
     }
+
+    @Override
+    public void manageStartButtonState(boolean state) {
+        menuPanel.getBtnStart().setEnabled(state);
+    }
+
+    @Override
+    public void manageStopButtonState(boolean state) {
+        menuPanel.getBtnStop().setEnabled(state);
+    }
+
+    @Override
+    public void manageAddButtonState(boolean state) {
+        menuPanel.getBtnAdd().setEnabled(state);
+    }
 }
