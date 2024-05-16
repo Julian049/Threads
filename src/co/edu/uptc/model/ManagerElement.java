@@ -16,19 +16,26 @@ public class ManagerElement {
     private int panelHeight;
     private ArrayList<Element> elementsList = new ArrayList<>();
 
+//    public TypeMovement randomDirection() {
+//        Random random = new Random();
+//        TypeMovement newTypeMovement = null;
+//        int option = random.nextInt(3);
+//        switch (option) {
+//            case 0:
+//                newTypeMovement = TypeMovement.HORIZONTAL;
+//                break;
+//            case 1:
+//                newTypeMovement = TypeMovement.VERTICAL;
+//                break;
+//            case 2:
+//                newTypeMovement = TypeMovement.DIAGONAL;
+//                break;
+//        }
+//        return newTypeMovement;
+//    }
+
     public TypeMovement randomDirection() {
-        Random random = new Random();
-        TypeMovement newTypeMovement = null;
-        int option = random.nextInt(2);
-        switch (option) {
-            case 0:
-                newTypeMovement = TypeMovement.HORIZONTAL;
-                break;
-            case 1:
-                newTypeMovement = TypeMovement.VERTICAL;
-                break;
-        }
-        return newTypeMovement;
+        return TypeMovement.DIAGONAL;
     }
 
     public TypeElementEnum randomType() {
@@ -67,12 +74,12 @@ public class ManagerElement {
             newElement.setType(randomType());
             this.setSize(newElement);
             this.setImage(newElement, newElement.getImageWidth(), newElement.getImageHeight());
-            newElement.setXCoordinate(randomX(newElement.getType()));
-            newElement.setYCoordinate(randomY(newElement.getType()));
+            newElement.setPoint(randomPoint(newElement.getType()));
             newElement.setSpeed(randomSpeed());
             newElement.setTypeMovement(randomDirection());
             this.setDirection(newElement);
             this.initText(newElement);
+            this.randomAngle(newElement);
             elements.add(newElement);
         }
         return elements;
@@ -98,13 +105,13 @@ public class ManagerElement {
 
     private void setImage(Element element, int width, int height) {
         if (element.getType().equals(TypeElementEnum.IMAGE)) {
-            ImageIcon image =randomImage();
+            ImageIcon image = randomImage();
             image = new ImageIcon(image.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
             element.setImage(image);
         }
     }
 
-    private ImageIcon randomImage(){
+    private ImageIcon randomImage() {
         Random random = new Random();
         int option = random.nextInt(4);
         ImageIcon image = null;
@@ -143,22 +150,26 @@ public class ManagerElement {
         return X;
     }
 
-    private int randomY(TypeElementEnum type) {
+    private Point randomPoint(TypeElementEnum type) {
         Random random = new Random();
+        int X = 0;
         int Y = 0;
         switch (type) {
             case CIRCLE:
             case SQUARE:
+                X = random.nextInt(getPanelWidth() - Config.CIRCLE_SIZE);
                 Y = random.nextInt(getPanelHeight() - Config.CIRCLE_SIZE);
                 break;
             case IMAGE:
+                X = random.nextInt(getPanelWidth() - Config.IMAGE_WIDTH);
                 Y = random.nextInt(getPanelHeight() - Config.IMAGE_HEIGHT);
                 break;
             case TEXT:
+                X = random.nextInt(getPanelWidth() - Config.TEXT_SIZE);
                 Y = random.nextInt(getPanelHeight() - Config.TEXT_SIZE);
                 break;
         }
-        return Y;
+        return new Point(X, Y);
     }
 
     private void initText(Element element) {
@@ -181,7 +192,7 @@ public class ManagerElement {
                     element.setDirection(DirectionEnum.RIGHT);
                     break;
             }
-        } else {
+        } else if (element.getTypeMovement().equals(TypeMovement.VERTICAL)) {
             int option = new Random().nextInt(2);
             switch (option) {
                 case 0:
@@ -189,6 +200,22 @@ public class ManagerElement {
                     break;
                 case 1:
                     element.setDirection(DirectionEnum.DOWN);
+                    break;
+            }
+        } else {
+            int option = new Random().nextInt(4);
+            switch (option) {
+                case 0:
+                    element.setDirection(DirectionEnum.DIAGONAL_UP_LEFT);
+                    break;
+                case 1:
+                    element.setDirection(DirectionEnum.DIAGONAL_UP_RIGHT);
+                    break;
+                case 2:
+                    element.setDirection(DirectionEnum.DIAGONAL_DOWN_LEFT);
+                    break;
+                case 3:
+                    element.setDirection(DirectionEnum.DIAGONAL_DOWN_RIGHT);
                     break;
             }
         }
@@ -210,24 +237,105 @@ public class ManagerElement {
     public void startElement() {
         this.running = true;
 
-        for (Element element : getElementsList()) {
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    while (running) {
-                        try {
-                            Thread.sleep(element.getSpeed());
-                            move(element);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
+        Thread thread = new Thread(() -> {
+            System.out.println(running);
+            while (running) {
+                for (Element element : elementsList) {
+                    moveDiagonal(element);
+                    move(element);
                 }
-            });
-            thread.start();
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void moveDiagonal(Element element) {
+        if (element.getTypeMovement() == TypeMovement.DIAGONAL) {
+            initDiagonalMovement(element);
         }
     }
-    
+
+    private void randomAngle(Element element) {
+        Random random = new Random();
+        int angle = random.nextInt(360);
+        element.setAngle(angle);
+    }
+
+    private void initDiagonalMovement(Element element) {
+        double angleInRadians = Math.toRadians(element.getAngle());
+        double speedX = element.getSpeed() * Math.cos(angleInRadians);
+        double speedY = element.getSpeed() * Math.sin(angleInRadians);
+
+        switch (element.getType()) {
+            case CIRCLE:
+                if (element.getPoint().x < 0 || element.getPoint().x + element.getCircleSize() > getPanelWidth()) {
+                    element.setAngle(new Random().nextInt(360));
+                    angleInRadians = Math.toRadians(element.getAngle());
+                    speedX = element.getSpeed() * Math.cos(angleInRadians);
+                    speedY = element.getSpeed() * Math.sin(angleInRadians);
+                }
+                if (element.getPoint().y < 0 || element.getPoint().y + element.getCircleSize() > getPanelHeight()) {
+                    element.setAngle(new Random().nextInt(360));
+                    angleInRadians = Math.toRadians(element.getAngle());
+                    speedX = element.getSpeed() * Math.cos(angleInRadians);
+                    speedY = element.getSpeed() * Math.sin(angleInRadians);
+                }
+                break;
+            case SQUARE:
+                if (element.getPoint().x < 0 || element.getPoint().x + element.getSquareSize() > getPanelWidth()) {
+                    element.setAngle(new Random().nextInt(360));
+                    angleInRadians = Math.toRadians(element.getAngle());
+                    speedX = element.getSpeed() * Math.cos(angleInRadians);
+                    speedY = element.getSpeed() * Math.sin(angleInRadians);
+                }
+                if (element.getPoint().y < 0 || element.getPoint().y + element.getSquareSize() > getPanelHeight()) {
+                    element.setAngle(new Random().nextInt(360));
+                    angleInRadians = Math.toRadians(element.getAngle());
+                    speedX = element.getSpeed() * Math.cos(angleInRadians);
+                    speedY = element.getSpeed() * Math.sin(angleInRadians);
+                }
+                break;
+            case IMAGE:
+                if (element.getPoint().x < 0 || element.getPoint().x + element.getImageWidth() > getPanelWidth()) {
+                    element.setAngle(new Random().nextInt(360));
+                    angleInRadians = Math.toRadians(element.getAngle());
+                    speedX = element.getSpeed() * Math.cos(angleInRadians);
+                    speedY = element.getSpeed() * Math.sin(angleInRadians);
+                }
+                if (element.getPoint().y < 0 || element.getPoint().y + element.getImageHeight() > getPanelHeight()) {
+                    element.setAngle(new Random().nextInt(360));
+                    angleInRadians = Math.toRadians(element.getAngle());
+                    speedX = element.getSpeed() * Math.cos(angleInRadians);
+                    speedY = element.getSpeed() * Math.sin(angleInRadians);
+                }
+                break;
+            case TEXT:
+                if (element.getPoint().x < 0 || element.getPoint().x + element.getTextWidth() > getPanelWidth()) {
+                    element.setAngle(new Random().nextInt(360));
+                    angleInRadians = Math.toRadians(element.getAngle());
+                    speedX = element.getSpeed() * Math.cos(angleInRadians);
+                    speedY = element.getSpeed() * Math.sin(angleInRadians);
+                }
+                if (element.getPoint().y < 0 || element.getPoint().y + element.getTextHeight() > getPanelHeight()) {
+                    element.setAngle(new Random().nextInt(360));
+                    angleInRadians = Math.toRadians(element.getAngle());
+                    speedX = element.getSpeed() * Math.cos(angleInRadians);
+                    speedY = element.getSpeed() * Math.sin(angleInRadians);
+                }
+                break;
+        }
+
+
+        int newX = (int) (element.getPoint().x + speedX);
+        int newY = (int) (element.getPoint().y + speedY);
+        element.setPoint(new Point(newX, newY));
+    }
+
     public void move(Element element) {
         if (element.getDirection() == DirectionEnum.LEFT) {
             left(element);
@@ -244,32 +352,32 @@ public class ManagerElement {
     }
 
     public void left(Element element) {
-        element.setXCoordinate(element.getXCoordinate() - Config.MOVING_PIXELS);
-        if (element.getXCoordinate() < 0) {
+        element.setPoint(new Point(element.getPoint().x - element.getSpeed(), element.getPoint().y));
+        if (element.getPoint().x < 0) {
             element.setDirection(DirectionEnum.RIGHT);
         }
     }
 
     public void right(Element element) {
-        element.setXCoordinate(element.getXCoordinate() + Config.MOVING_PIXELS);
+        element.setPoint(new Point(element.getPoint().x + element.getSpeed(), element.getPoint().y));
         switch (element.getType()) {
             case CIRCLE:
-                if (element.getXCoordinate() >= (getPanelWidth() - element.getCircleSize())) {
+                if (element.getPoint().x >= (getPanelWidth() - element.getCircleSize())) {
                     element.setDirection(DirectionEnum.LEFT);
                 }
                 break;
             case SQUARE:
-                if (element.getXCoordinate() >= (getPanelWidth() - element.getSquareSize())) {
+                if (element.getPoint().x >= (getPanelWidth() - element.getSquareSize())) {
                     element.setDirection(DirectionEnum.LEFT);
                 }
                 break;
             case IMAGE:
-                if (element.getXCoordinate() >= (getPanelWidth() - (element.getImageWidth()))) {
+                if (element.getPoint().x >= (getPanelWidth() - (element.getImageWidth()))) {
                     element.setDirection(DirectionEnum.LEFT);
                 }
                 break;
             case TEXT:
-                if (element.getXCoordinate() >= (getPanelWidth() - element.getTextWidth())) {
+                if (element.getPoint().x >= (getPanelWidth() - element.getTextWidth())) {
                     element.setDirection(DirectionEnum.LEFT);
                 }
                 break;
@@ -278,25 +386,25 @@ public class ManagerElement {
     }
 
     public void down(Element element) {
-        element.setYCoordinate(element.getYCoordinate() + Config.MOVING_PIXELS);
+        element.setPoint(new Point(element.getPoint().x, element.getPoint().y + element.getSpeed()));
         switch (element.getType()) {
             case CIRCLE:
-                if (element.getYCoordinate() >= (getPanelHeight() - element.getCircleSize())) {
+                if (element.getPoint().y >= (getPanelHeight() - element.getCircleSize())) {
                     element.setDirection(DirectionEnum.UP);
                 }
                 break;
             case SQUARE:
-                if (element.getYCoordinate() >= (getPanelHeight() - element.getSquareSize())) {
+                if (element.getPoint().y >= (getPanelHeight() - element.getSquareSize())) {
                     element.setDirection(DirectionEnum.UP);
                 }
                 break;
             case IMAGE:
-                if (element.getYCoordinate() >= (getPanelHeight() - element.getImageHeight())) {
+                if (element.getPoint().y >= (getPanelHeight() - element.getImageHeight())) {
                     element.setDirection(DirectionEnum.UP);
                 }
                 break;
             case TEXT:
-                if (element.getYCoordinate() >= (getPanelHeight())) {
+                if (element.getPoint().y >= (getPanelHeight())) {
                     element.setDirection(DirectionEnum.UP);
                 }
                 break;
@@ -304,13 +412,13 @@ public class ManagerElement {
     }
 
     public void up(Element element) {
-        element.setYCoordinate(element.getYCoordinate() - Config.MOVING_PIXELS);
+        element.setPoint(new Point(element.getPoint().x, element.getPoint().y - element.getSpeed()));
         if (!element.getType().equals(TypeElementEnum.TEXT)) {
-            if (element.getYCoordinate() < 0) {
+            if (element.getPoint().y < 0) {
                 element.setDirection(DirectionEnum.DOWN);
             }
         } else {
-            if (element.getYCoordinate() <= element.getTextHeight()) {
+            if (element.getPoint().y <= element.getTextHeight()) {
                 element.setDirection(DirectionEnum.DOWN);
             }
         }

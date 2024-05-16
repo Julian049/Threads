@@ -1,5 +1,5 @@
 package co.edu.uptc.model;
 
 public enum TypeMovement {
-    HORIZONTAL, VERTICAL
+    HORIZONTAL, VERTICAL, DIAGONAL
 }

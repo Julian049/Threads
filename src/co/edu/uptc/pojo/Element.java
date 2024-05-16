@@ -8,8 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Element {
-    private int XCoordinate;
-    private int YCoordinate;
+    private Point point;
     private int imageHeight;
     private int imageWidth;
     private int circleSize;
@@ -24,6 +23,7 @@ public class Element {
     private DirectionEnum direction;
     private String text;
     private Font font;
+    private int angle;
 
     public DirectionEnum getDirection() {
         return direction;
@@ -97,20 +97,12 @@ public class Element {
         this.image = image;
     }
 
-    public int getXCoordinate() {
-        return XCoordinate;
+    public Point getPoint() {
+        return point;
     }
 
-    public void setXCoordinate(int XCoordinate) {
-        this.XCoordinate = XCoordinate;
-    }
-
-    public int getYCoordinate() {
-        return YCoordinate;
-    }
-
-    public void setYCoordinate(int YCoordinate) {
-        this.YCoordinate = YCoordinate;
+    public void setPoint(Point point) {
+        this.point = point;
     }
 
     public int getSquareSize() {
@@ -150,5 +142,13 @@ public class Element {
 
     public void setFont(Font font) {
         this.font = font;
+    }
+
+    public int getAngle() {
+        return angle;
+    }
+
+    public void setAngle(int angle) {
+        this.angle = angle;
     }
 }

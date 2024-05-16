@@ -30,20 +30,20 @@ public class WorkPanel extends JPanel {
             switch (element.getType()) {
                 case CIRCLE:
                     g.setColor(Color.RED);
-                    g.fillOval(element.getXCoordinate(), element.getYCoordinate(), element.getCircleSize(), element.getCircleSize());
+                    g.fillOval(element.getPoint().x, element.getPoint().y, element.getCircleSize(), element.getCircleSize());
                     break;
                 case SQUARE:
                     g.setColor(Color.GREEN);
-                    g.fillRect(element.getXCoordinate(), element.getYCoordinate(), element.getSquareSize(), element.getSquareSize());
+                    g.fillRect(element.getPoint().x, element.getPoint().y, element.getSquareSize(), element.getSquareSize());
                     break;
                 case IMAGE:
-                    g.drawImage(element.getImage().getImage(), element.getXCoordinate(), element.getYCoordinate(), null);
+                    g.drawImage(element.getImage().getImage(), element.getPoint().x, element.getPoint().y, null);
                     break;
                 case TEXT:
                     g.setColor(Color.BLACK);
                     Font font = element.getFont();
                     g.setFont(font);
-                    g.drawString(element.getText(), element.getXCoordinate(), element.getYCoordinate());
+                    g.drawString(element.getText(), element.getPoint().x, element.getPoint().y);
                     FontMetrics metrics = g.getFontMetrics(font);
                     element.setTextWidth(metrics.stringWidth(Config.TEXT));
                     element.setTextHeight(metrics.getHeight());
